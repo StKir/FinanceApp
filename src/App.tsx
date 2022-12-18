@@ -1,9 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRouter from './components/AppRoutes';
 
 function App() {
-	return <div className='App'></div>;
+	return (
+		<div className='App'>
+			<Router>
+				<AppRouter />
+			</Router>
+		</div>
+	);
 }
 
 export default App;

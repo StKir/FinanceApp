@@ -1,17 +1,29 @@
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { Link, Router } from 'react-router-dom';
 import { routeNames } from '../../routes';
-import { useAppSelector } from '../../store/store';
-import { checkAuth } from '../../store/authSlice';
+import { useAppSelector, useAppDispatch } from '../../store/store';
+import { checkAuth, changeAuth, openModal } from '../../store/authSlice';
 import { Button } from 'antd';
 import logo from '../../assets/logo.png';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space } from 'antd';
+import { useState } from 'react';
+import AppAuth from './AppAuth';
 
 const { Header } = Layout;
 
 function AppMenu() {
 	const isAuth = useAppSelector(checkAuth);
+	const open = useAppSelector((state) => state.auth.modalOpen);
+	const dispatch = useAppDispatch();
+
+	const authHandle = (isAuth: boolean) => {
+		if (isAuth) {
+			dispatch(changeAuth(false));
+		} else {
+			dispatch(openModal(true));
+		}
+	};
 
 	const items = routeNames
 		.sort((el, el2) => el.id - el2.id)
@@ -33,6 +45,7 @@ function AppMenu() {
 		}));
 	return (
 		<Layout>
+			<AppAuth />
 			<Header
 				style={{
 					position: 'sticky',
@@ -81,7 +94,9 @@ function AppMenu() {
 						/>
 					</Space>
 					<div className='right-side-menu'>
-						<Button>{isAuth ? 'Выйти' : 'Войти'}</Button>
+						<Button onClick={() => authHandle(isAuth)}>
+							{isAuth ? 'Выйти' : 'Войти'}
+						</Button>
 					</div>
 				</div>
 			</Header>

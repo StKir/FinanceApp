@@ -1,5 +1,5 @@
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { Link, Router } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import { Link } from 'react-router-dom';
 import { routeNames } from '../../routes';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { checkAuth, changeAuth, openModal } from '../../store/authSlice';
@@ -7,14 +7,12 @@ import { Button } from 'antd';
 import logo from '../../assets/logo.png';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space } from 'antd';
-import { useState } from 'react';
 import AppAuth from './AppAuth';
 
 const { Header } = Layout;
 
 function AppMenu() {
 	const isAuth = useAppSelector(checkAuth);
-	const open = useAppSelector((state) => state.auth.modalOpen);
 	const dispatch = useAppDispatch();
 
 	const authHandle = (isAuth: boolean) => {
@@ -88,7 +86,11 @@ function AppMenu() {
 					<Space>
 						<Avatar
 							size={40}
-							style={{ backgroundColor: '#29B32E', marginRight: '20px' }}
+							style={
+								isAuth
+									? { backgroundColor: '#29B32E', marginRight: '20px' }
+									: { backgroundColor: '#393939', marginRight: '20px' }
+							}
 							src={isAuth ? null : null}
 							icon={<UserOutlined />}
 						/>

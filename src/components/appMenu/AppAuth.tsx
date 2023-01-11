@@ -4,9 +4,11 @@ import Modal from 'antd/es/modal/Modal';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { openModal } from '../../store/authSlice';
 import Login from '../appLogin/Login';
+import Registration from '../appRegistration/Registration';
 
 function AppAuth() {
 	const open = useAppSelector((state) => state.auth.modalOpen);
+	const typeModal = useAppSelector((state) => state.auth.modalType);
 	const dispatch = useAppDispatch();
 
 	return (
@@ -17,7 +19,7 @@ function AppAuth() {
 			onCancel={() => dispatch(openModal(false))}
 			footer={null}
 		>
-			<Login />
+			{typeModal === 'log' ? <Login /> : <Registration />}
 		</Modal>
 	);
 }

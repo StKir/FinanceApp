@@ -14,7 +14,8 @@ const authAdapter = createEntityAdapter<authAdapterType>();
 const initialState = {
 	isAuth: true,
 	_user: {},
-	modalOpen: false
+	modalOpen: false,
+	modalType: 'log'
 } as authAdapterType;
 
 const authSlice = createSlice({
@@ -35,6 +36,10 @@ const authSlice = createSlice({
 			state._user = payload;
 			state.isAuth = true;
 			state.modalOpen = false;
+			state.modalType = 'log';
+		},
+		changeTypeModal: (state, { payload }: PayloadAction<'log' | 'reg'>) => {
+			state.modalType = payload;
 		}
 	}
 });
@@ -45,4 +50,5 @@ export const checkAuth = (state: RootState) => state.auth.isAuth;
 
 export default reducer;
 
-export const { changeAuth, getUser, openModal, login } = actions;
+export const { changeAuth, getUser, openModal, login, changeTypeModal } =
+	actions;

@@ -2,6 +2,7 @@ export interface authAdapterType {
 	isAuth: boolean;
 	modalOpen: boolean;
 	_user: user;
+	modalType: 'reg' | 'log';
 }
 
 export interface user {

@@ -8,7 +8,6 @@ import logo from '../../assets/logo.png';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space } from 'antd';
 import AppAuth from './AppAuth';
-
 const { Header } = Layout;
 
 function AppMenu() {

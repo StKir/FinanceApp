@@ -1,0 +1,14 @@
+.exhangerInput {
+	width: 100%;
+	padding: 25px 25px;
+	.title {
+		display: block;
+		margin-bottom: 15px;
+	}
+	.send {
+		margin-bottom: 10px;
+		.send-form {
+			display: flex;
+		}
+	}
+}

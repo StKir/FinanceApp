@@ -1,5 +1,3 @@
-import React from 'react';
-import { Drawer } from 'antd';
 import Modal from 'antd/es/modal/Modal';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { openModal } from '../../store/authSlice';

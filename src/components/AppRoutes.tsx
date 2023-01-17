@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { authRoutes, publicRoutes } from '../routes';
-import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../store/store';
 import { checkAuth } from '../store/authSlice';
 const Error404 = lazy(() => import('../pages/404/Error404'));

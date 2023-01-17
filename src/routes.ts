@@ -1,7 +1,7 @@
 // import Catalog from './pages/catalogPage/Catalog';
 import { lazy } from 'react';
 
-const Catalog = lazy(() => import('./pages/catalogPage/Catalog'));
+const Exchanger = lazy(() => import('./pages/exchangerPage/Exchanger'));
 const Board = lazy(() => import('./pages/boardPage/Board'));
 const Admin = lazy(() => import('./pages/adminPage/AdminPage'));
 const News = lazy(() => import('./pages/newsPage/News'));
@@ -23,8 +23,8 @@ type routeNav = {
 export const routeNames: routeNav[] = [
 	{
 		id: 3,
-		name: 'Каталог',
-		route: '/catalog',
+		name: 'Обменник',
+		route: '/exchanger',
 		auth: true
 	},
 	{
@@ -55,8 +55,8 @@ export const routeNames: routeNav[] = [
 
 export const authRoutes: route[] = [
 	{
-		path: '/catalog',
-		Component: Catalog
+		path: '/exchanger',
+		Component: Exchanger
 	},
 	{
 		path: '/board',

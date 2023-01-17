@@ -12,3 +12,17 @@ export interface user {
 	remember?: boolean;
 	password?: string;
 }
+
+export interface exchangeData {
+	adapter: string;
+	from: string;
+	fromNetwork: string;
+	to: string;
+	toNetwork: string;
+	offerReferenceId: string;
+	amountFrom: number;
+	amountTo: number | string;
+	quotaId: string;
+	offerExpirationTime: string;
+	id?: string;
+}

@@ -2,11 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './exchangerInput.scss';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
 import axios from 'axios';
+import { exhangeTokens, exhangeType } from '../../types/typesApp';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import {
+	changeData,
+	fetchExhangeData,
+	refreshData,
+	selectAll
+} from '../../store/exchangeSlice';
 function ExchangerInput() {
 	const [coins, SetCoins] = useState<{ value: string; label: string }[]>([]);
+	const amount = useAppSelector(selectAll);
+	const dispatch = useAppDispatch();
 	useEffect(() => {
+		dispatch(refreshData());
 		getOptions();
-	}, []);
+	}, [dispatch]);
 
 	const getOptions = async () => {
 		return await axios({
@@ -17,7 +28,7 @@ function ExchangerInput() {
 			url: 'https://api.swapzone.io/v1/exchange/currencies'
 		}).then((data) =>
 			SetCoins(
-				data.data.map((el: any) => ({
+				data.data.map((el: exhangeTokens) => ({
 					value: el.ticker,
 					label: el.ticker
 				}))
@@ -25,8 +36,9 @@ function ExchangerInput() {
 		);
 	};
 
-	const onFinish = (value: any) => {
-		console.log(value);
+	const onFinish = (value: exhangeType) => {
+		dispatch(changeData(value));
+		dispatch(fetchExhangeData(value));
 	};
 
 	return (
@@ -89,7 +101,7 @@ function ExchangerInput() {
 							</Form.Item>
 							<InputNumber
 								readOnly
-								value={2}
+								value={amount[0]?.amountTo || 0}
 								placeholder='Вы получите'
 								style={{ width: 200 }}
 							/>

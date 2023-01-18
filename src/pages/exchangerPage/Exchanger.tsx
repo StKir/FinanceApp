@@ -12,12 +12,16 @@ function Catalog() {
 	const adapters: exchangeData[] = useAppSelector(selectAll);
 
 	const renderAdapters = (adapters: exchangeData[]) => {
-		return adapters.map((el) => {
-			return <ExchangeOffer data={el} key={el.id} />;
+		return adapters.map((el, i) => {
+			if (i === 0) {
+				return <ExchangeOffer data={el} acent={true} key={el.id} />;
+			} else {
+				return <ExchangeOffer data={el} acent={false} key={el.id} />;
+			}
 		});
 	};
 
-	const data1 = renderAdapters(adapters);
+	const list = renderAdapters(adapters);
 	return (
 		<div className='container'>
 			<h1>Обменник</h1>
@@ -31,7 +35,7 @@ function Catalog() {
 					<Col span={16}>
 						<span style={{ fontSize: 18 }}>Шаг 2. Выберете условия обмена</span>
 						<ExchangeLoader />
-						{data1}
+						{list}
 					</Col>
 				) : null}
 			</Row>

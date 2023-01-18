@@ -6,8 +6,16 @@
 	padding: 10px;
 	margin-bottom: 10px;
 	transition: all 0.4s ease-in-out;
+	.exchange_info {
+		display: flex;
+		align-items: center;
+	}
 }
 .exchangeOffer:hover {
-	background: #ffffff;
+	background: rgba(41, 203, 86, 0.05);
 	box-shadow: none;
+}
+.acent {
+	border: 1px solid #29b22e;
+	box-shadow: 0px 4px 8px rgba(41, 179, 46, 0.25);
 }

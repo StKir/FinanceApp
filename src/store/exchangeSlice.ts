@@ -2,12 +2,11 @@ import {
 	createSlice,
 	createAsyncThunk,
 	createEntityAdapter,
-	createSelector,
 	PayloadAction
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { exchangeData } from '../types/storeTypes';
-import { exhangeType } from '../types/typesApp';
+import { exchangeData, Ttokens } from '../types/storeTypes';
+import { exhangeTokens, exhangeType } from '../types/typesApp';
 import { RootState } from './store';
 const ExchangeAdater = createEntityAdapter<exchangeData>();
 
@@ -16,13 +15,24 @@ type ExchangeAdaterType = {
 	data: exhangeType;
 	entities: {};
 	ids: [];
+	selectedChanger: exchangeData | null;
+	exchangeMoadl: boolean;
+	tokens: Ttokens[];
 };
 
 const initialState = {
 	entities: {},
 	ids: [],
 	LoadingStatus: 'idle',
-	data: {}
+	data: {},
+	selectedChanger: {},
+	exchangeMoadl: false,
+	tokens: [
+		{
+			value: 'Загрузка!',
+			label: 'Загрузка!'
+		}
+	]
 } as ExchangeAdaterType;
 
 export const fetchExhangeData = createAsyncThunk<exchangeData[], exhangeType>(
@@ -45,6 +55,24 @@ export const fetchExhangeData = createAsyncThunk<exchangeData[], exhangeType>(
 	}
 );
 
+export const getAllTokens = createAsyncThunk<Ttokens[]>(
+	'exchange/getAllTokens',
+	async () => {
+		return await axios({
+			method: 'GET',
+			headers: {
+				'x-api-key': 'wqDOuFGv1'
+			},
+			url: 'https://api.swapzone.io/v1/exchange/currencies'
+		}).then((data) =>
+			data.data.map((el: exhangeTokens) => ({
+				value: el.ticker,
+				label: el.ticker.toUpperCase() + ' ' + el.name
+			}))
+		);
+	}
+);
+
 const exhangeSlice = createSlice({
 	name: 'exchange',
 	initialState,
@@ -55,6 +83,15 @@ const exhangeSlice = createSlice({
 		refreshData: (state) => {
 			state.data = { amount: 0, receive: '', send: '' };
 			ExchangeAdater.removeAll(state);
+			state.selectedChanger = null;
+		},
+		selectChanger: (state, { payload }: PayloadAction<exchangeData>) => {
+			state.selectedChanger = payload;
+			state.exchangeMoadl = true;
+		},
+		cancellationExchange: (state) => {
+			state.selectedChanger = null;
+			state.exchangeMoadl = false;
 		}
 	},
 	extraReducers: (builder) => {
@@ -64,11 +101,13 @@ const exhangeSlice = createSlice({
 			})
 			.addCase(fetchExhangeData.fulfilled, (state, { payload }) => {
 				state.LoadingStatus = 'idle';
-				console.log(payload);
 				ExchangeAdater.setAll(state, payload);
 			})
 			.addCase(fetchExhangeData.rejected, (state) => {
 				state.LoadingStatus = 'error';
+			})
+			.addCase(getAllTokens.fulfilled, (state, { payload }) => {
+				state.tokens = payload;
 			});
 	}
 });
@@ -81,4 +120,5 @@ export const { selectAll } = ExchangeAdater.getSelectors<RootState>(
 
 export default reducer;
 
-export const { changeData, refreshData } = actions;
+export const { changeData, refreshData, selectChanger, cancellationExchange } =
+	actions;

@@ -26,3 +26,8 @@ export interface exchangeData {
 	offerExpirationTime: string;
 	id?: string;
 }
+
+export interface Ttokens {
+	value: string;
+	label: string;
+}

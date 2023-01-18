@@ -1,40 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import './exchangerInput.scss';
 import { Button, Form, Input, InputNumber, Select } from 'antd';
-import axios from 'axios';
-import { exhangeTokens, exhangeType } from '../../types/typesApp';
+import { exhangeType } from '../../types/typesApp';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
 	changeData,
 	fetchExhangeData,
-	refreshData,
+	getAllTokens,
 	selectAll
 } from '../../store/exchangeSlice';
 function ExchangerInput() {
-	const [coins, SetCoins] = useState<{ value: string; label: string }[]>([]);
 	const amount = useAppSelector(selectAll);
+	const tokens = useAppSelector((state) => state.exchange.tokens);
+	const selectedData = useAppSelector((state) => state.exchange.data);
 	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(refreshData());
-		getOptions();
+		if (tokens.length === 1) {
+			dispatch(getAllTokens());
+		}
+		if (selectedData.send) {
+			onFinish(selectedData);
+		}
+		// eslint-disable-next-line
 	}, [dispatch]);
-
-	const getOptions = async () => {
-		return await axios({
-			method: 'GET',
-			headers: {
-				'x-api-key': 'wqDOuFGv1'
-			},
-			url: 'https://api.swapzone.io/v1/exchange/currencies'
-		}).then((data) =>
-			SetCoins(
-				data.data.map((el: exhangeTokens) => ({
-					value: el.ticker,
-					label: el.ticker
-				}))
-			)
-		);
-	};
 
 	const onFinish = (value: exhangeType) => {
 		dispatch(changeData(value));
@@ -51,6 +39,7 @@ function ExchangerInput() {
 							<Form.Item
 								name='send'
 								rules={[{ required: true, message: 'Обязательное поле' }]}
+								initialValue={selectedData.send}
 							>
 								<Select
 									showSearch
@@ -62,12 +51,13 @@ function ExchangerInput() {
 											.toLowerCase()
 											.includes(input.toLowerCase())
 									}
-									options={coins}
+									options={tokens}
 								></Select>
 							</Form.Item>
 							<Form.Item
 								name='amount'
 								rules={[{ required: true, message: 'Обязательное поле' }]}
+								initialValue={selectedData.amount}
 							>
 								<InputNumber
 									min={0.0001}
@@ -85,8 +75,10 @@ function ExchangerInput() {
 							<Form.Item
 								name='receive'
 								rules={[{ required: true, message: 'Обязательное поле' }]}
+								initialValue={selectedData.receive}
 							>
 								<Select
+									defaultValue={selectedData.receive}
 									showSearch
 									optionFilterProp='children'
 									style={{ width: 150 }}
@@ -96,12 +88,12 @@ function ExchangerInput() {
 											.toLowerCase()
 											.includes(input.toLowerCase())
 									}
-									options={coins}
+									options={tokens}
 								></Select>
 							</Form.Item>
 							<InputNumber
 								readOnly
-								value={amount[0]?.amountTo || 0}
+								value={amount[0]?.amountTo || null}
 								placeholder='Вы получите'
 								style={{ width: 200 }}
 							/>

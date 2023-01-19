@@ -12,8 +12,6 @@ function AppAuth() {
 	return (
 		<Modal
 			open={open}
-			// placement='top'
-			// width={900}
 			onCancel={() => dispatch(openModal(false))}
 			footer={null}
 		>

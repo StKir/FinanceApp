@@ -1,19 +1,24 @@
 import { Button, Checkbox, Form, Input } from 'antd';
-import { login, changeTypeModal } from '../../store/authSlice';
-import { useAppDispatch } from '../../store/store';
-import { user } from '../../types/storeTypes';
+import { useAppSelector } from '../../store/store';
 
-function Login() {
-	const dispatch = useAppDispatch();
-	const onSubmitForm = (userData: user): void => {
-		dispatch(login(userData));
-	};
-
+function ExchangerForm() {
+	const selectedChanger = useAppSelector(
+		(state) => state.exchange.selectedChanger
+	);
 	return (
 		<>
-			<h1 style={{ display: 'flex', justifyContent: 'center' }}>Вход</h1>
+			<h2>Обменник - {selectedChanger?.adapter.toUpperCase()}</h2>
+			<h3>
+				{selectedChanger
+					? selectedChanger.amountFrom +
+					  selectedChanger.from.toUpperCase() +
+					  ' → ' +
+					  selectedChanger.amountTo +
+					  selectedChanger.to.toUpperCase()
+					: null}
+			</h3>
 			<Form
-				onFinish={onSubmitForm}
+				// onFinish={onSubmitForm}
 				name='basic'
 				initialValues={{ remember: true }}
 				autoComplete='true'
@@ -43,23 +48,12 @@ function Login() {
 						{ required: true, message: 'Пожалуйста введите ваш пароль!' }
 					]}
 				>
-					<Input.Password />
-				</Form.Item>
-
-				<Form.Item name='remember' valuePropName='checked'>
-					<Checkbox>Запомнить меня</Checkbox>
+					<Input />
 				</Form.Item>
 
 				<Form.Item style={{ display: 'flex' }}>
 					<Button type='primary' htmlType='submit'>
 						Войти
-					</Button>
-					<Button
-						style={{ marginLeft: '10px' }}
-						type='dashed'
-						onClick={() => dispatch(changeTypeModal('reg'))}
-					>
-						Зарегистрироваться
 					</Button>
 				</Form.Item>
 			</Form>
@@ -67,4 +61,4 @@ function Login() {
 	);
 }
 
-export default Login;
+export default ExchangerForm;

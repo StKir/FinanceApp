@@ -2,12 +2,15 @@ import { Row, Col, Statistic, Button } from 'antd';
 import './exchangeOffer.scss';
 import CountUp from 'react-countup';
 import { exchangeData } from '../../types/storeTypes';
+import { useAppDispatch } from '../../store/store';
+import { selectChanger } from '../../store/exchangeSlice';
 
 const formatter = (value: number, token: string) => (
 	<CountUp start={0.0001} end={value} decimals={6} prefix={token + ' '} />
 );
 
 function ExchangeOffer(props: { data: exchangeData; acent: boolean }) {
+	const dispatch = useAppDispatch();
 	const {
 		adapter,
 		fromNetwork,
@@ -18,6 +21,9 @@ function ExchangeOffer(props: { data: exchangeData; acent: boolean }) {
 		offerExpirationTime,
 		quotaId
 	} = props.data;
+
+	const openModal = () => dispatch(selectChanger(props.data));
+
 	return (
 		<div className={'exchangeOffer' + (props.acent ? ' acent' : ' ')}>
 			<Row gutter={16} className='exchange_info'>
@@ -49,6 +55,7 @@ function ExchangeOffer(props: { data: exchangeData; acent: boolean }) {
 							width: '100%'
 						}}
 						type='default'
+						onClick={openModal}
 					>
 						Обменять
 					</Button>

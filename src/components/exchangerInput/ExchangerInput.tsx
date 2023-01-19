@@ -14,6 +14,7 @@ function ExchangerInput() {
 	const tokens = useAppSelector((state) => state.exchange.tokens);
 	const selectedData = useAppSelector((state) => state.exchange.data);
 	const dispatch = useAppDispatch();
+
 	useEffect(() => {
 		if (tokens.length === 1) {
 			dispatch(getAllTokens());
@@ -24,7 +25,7 @@ function ExchangerInput() {
 		// eslint-disable-next-line
 	}, [dispatch]);
 
-	const onFinish = (value: exhangeType) => {
+	const onFinish = (value: exhangeType): void => {
 		dispatch(changeData(value));
 		dispatch(fetchExhangeData(value));
 	};

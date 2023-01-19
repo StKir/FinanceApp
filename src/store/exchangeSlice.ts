@@ -16,7 +16,7 @@ type ExchangeAdaterType = {
 	entities: {};
 	ids: [];
 	selectedChanger: exchangeData | null;
-	exchangeMoadl: boolean;
+	exchangeMoadal: boolean;
 	tokens: Ttokens[];
 };
 
@@ -26,7 +26,7 @@ const initialState = {
 	LoadingStatus: 'idle',
 	data: {},
 	selectedChanger: {},
-	exchangeMoadl: false,
+	exchangeMoadal: false,
 	tokens: [
 		{
 			value: 'Загрузка!',
@@ -87,11 +87,11 @@ const exhangeSlice = createSlice({
 		},
 		selectChanger: (state, { payload }: PayloadAction<exchangeData>) => {
 			state.selectedChanger = payload;
-			state.exchangeMoadl = true;
+			state.exchangeMoadal = true;
 		},
 		cancellationExchange: (state) => {
 			state.selectedChanger = null;
-			state.exchangeMoadl = false;
+			state.exchangeMoadal = false;
 		}
 	},
 	extraReducers: (builder) => {

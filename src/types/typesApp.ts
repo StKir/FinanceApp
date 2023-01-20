@@ -10,3 +10,8 @@ export interface exhangeTokens {
 	network: string;
 	smartContract: string;
 }
+
+export interface TvalidateAddress {
+	wallet: string;
+	token: string;
+}

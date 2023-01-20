@@ -30,7 +30,11 @@ function Catalog() {
 	const list = renderAdapters(adapters);
 	return (
 		<div className='container'>
-			<Modal open={isOpen} onCancel={() => dispatch(cancellationExchange())}>
+			<Modal
+				open={isOpen}
+				footer={null}
+				onCancel={() => dispatch(cancellationExchange())}
+			>
 				Шаг 3. Введите данные для перевода
 				<ExchangerForm />
 			</Modal>

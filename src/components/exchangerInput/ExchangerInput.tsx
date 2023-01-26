@@ -79,7 +79,6 @@ function ExchangerInput() {
 								initialValue={selectedData.receive}
 							>
 								<Select
-									defaultValue={selectedData.receive}
 									showSearch
 									optionFilterProp='children'
 									style={{ width: 150 }}

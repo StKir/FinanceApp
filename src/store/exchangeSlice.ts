@@ -5,7 +5,12 @@ import {
 	PayloadAction
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { exchangeData, Ttokens } from '../types/storeTypes';
+import {
+	exchangeData,
+	Ttokens,
+	TvalidatorRes,
+	TvalidatorWallet
+} from '../types/storeTypes';
 import { exhangeTokens, exhangeType } from '../types/typesApp';
 import { RootState } from './store';
 const ExchangeAdater = createEntityAdapter<exchangeData>();
@@ -18,6 +23,10 @@ type ExchangeAdaterType = {
 	selectedChanger: exchangeData | null;
 	exchangeMoadal: boolean;
 	tokens: Ttokens[];
+	validationWallets: {
+		addres1: TvalidatorRes | null;
+		addres2: TvalidatorRes | null;
+	};
 };
 
 const initialState = {
@@ -26,6 +35,10 @@ const initialState = {
 	LoadingStatus: 'idle',
 	data: {},
 	selectedChanger: {},
+	validationWallets: {
+		addres1: {},
+		addres2: {}
+	},
 	exchangeMoadal: false,
 	tokens: [
 		{
@@ -73,6 +86,24 @@ export const getAllTokens = createAsyncThunk<Ttokens[]>(
 	}
 );
 
+export const validateWallet = createAsyncThunk<TvalidatorRes, TvalidatorWallet>(
+	'exchange/validateWallet',
+	async ({ token, addres, input }) => {
+		return await axios({
+			method: 'GET',
+			headers: {
+				'x-api-key': 'wqDOuFGv1'
+			},
+			url: `https://api.swapzone.io/v1/exchange/validate/address?currency=${token}&address=${addres}`
+		}).then((data) => ({
+			status: data.data.result,
+			token,
+			addres,
+			input
+		}));
+	}
+);
+
 const exhangeSlice = createSlice({
 	name: 'exchange',
 	initialState,
@@ -84,6 +115,8 @@ const exhangeSlice = createSlice({
 			state.data = { amount: 0, receive: '', send: '' };
 			ExchangeAdater.removeAll(state);
 			state.selectedChanger = null;
+			state.validationWallets.addres1 = null;
+			state.validationWallets.addres2 = null;
 		},
 		selectChanger: (state, { payload }: PayloadAction<exchangeData>) => {
 			state.selectedChanger = payload;
@@ -92,6 +125,10 @@ const exhangeSlice = createSlice({
 		cancellationExchange: (state) => {
 			state.selectedChanger = null;
 			state.exchangeMoadal = false;
+		},
+		resetValidator: (state) => {
+			state.validationWallets.addres1 = null;
+			state.validationWallets.addres2 = null;
 		}
 	},
 	extraReducers: (builder) => {
@@ -108,6 +145,15 @@ const exhangeSlice = createSlice({
 			})
 			.addCase(getAllTokens.fulfilled, (state, { payload }) => {
 				state.tokens = payload;
+			})
+			.addCase(validateWallet.fulfilled, (state, { payload }) => {
+				if (payload.input === 1) {
+					state.validationWallets.addres1 = payload;
+				} else {
+					console.log(payload);
+
+					state.validationWallets.addres2 = payload;
+				}
 			});
 	}
 });
@@ -120,5 +166,10 @@ export const { selectAll } = ExchangeAdater.getSelectors<RootState>(
 
 export default reducer;
 
-export const { changeData, refreshData, selectChanger, cancellationExchange } =
-	actions;
+export const {
+	changeData,
+	refreshData,
+	selectChanger,
+	cancellationExchange,
+	resetValidator
+} = actions;

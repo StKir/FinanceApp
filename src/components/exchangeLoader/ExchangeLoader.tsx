@@ -9,15 +9,17 @@ function ExchangeLoader() {
 	useEffect(() => {
 		return () => clearInterval(time);
 	});
-	console.log(percent);
+
+	useEffect(() => {
+		setPercent(0);
+	}, [status]);
 
 	const increase = () => {
 		setPercent((prevPercent) => {
-			const newPercent = prevPercent + 10;
-			if (newPercent > 80) {
-				return 80;
+			if (prevPercent < 80) {
+				return prevPercent + 10;
 			}
-			return newPercent;
+			return 80;
 		});
 	};
 
@@ -29,7 +31,6 @@ function ExchangeLoader() {
 				return 'exception';
 			case 'idle':
 				clearInterval(time);
-				console.log(time);
 				return 'success';
 			default:
 				return 'exception';

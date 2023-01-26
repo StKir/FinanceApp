@@ -31,3 +31,13 @@ export interface Ttokens {
 	value: string;
 	label: string;
 }
+
+export interface TvalidatorWallet {
+	token: string;
+	addres: string;
+	input: 1 | 2;
+}
+
+export interface TvalidatorRes extends TvalidatorWallet {
+	status: boolean;
+}

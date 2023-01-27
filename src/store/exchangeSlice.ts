@@ -27,6 +27,7 @@ type ExchangeAdaterType = {
 		addres1: TvalidatorRes | null;
 		addres2: TvalidatorRes | null;
 	};
+	transctionList: any[];
 };
 
 const initialState = {
@@ -45,7 +46,8 @@ const initialState = {
 			value: 'Загрузка!',
 			label: 'Загрузка!'
 		}
-	]
+	],
+	transctionList: {}
 } as ExchangeAdaterType;
 
 export const fetchExhangeData = createAsyncThunk<exchangeData[], exhangeType>(
@@ -54,7 +56,7 @@ export const fetchExhangeData = createAsyncThunk<exchangeData[], exhangeType>(
 		return await axios({
 			method: 'GET',
 			headers: {
-				'x-api-key': 'wqDOuFGv1'
+				'x-api-key': process.env.REACT_APP_PRIVATE_KEY!
 			},
 			url: `https://api.swapzone.io/v1/exchange/get-rate?from=${send}&to=${receive}&amount=${amount}&rateType=all&availableInUSA=false&chooseRate=all&noRefundAddress=false`
 		})
@@ -74,7 +76,7 @@ export const getAllTokens = createAsyncThunk<Ttokens[]>(
 		return await axios({
 			method: 'GET',
 			headers: {
-				'x-api-key': 'wqDOuFGv1'
+				'x-api-key': process.env.REACT_APP_PRIVATE_KEY!
 			},
 			url: 'https://api.swapzone.io/v1/exchange/currencies'
 		}).then((data) =>
@@ -92,7 +94,7 @@ export const validateWallet = createAsyncThunk<TvalidatorRes, TvalidatorWallet>(
 		return await axios({
 			method: 'GET',
 			headers: {
-				'x-api-key': 'wqDOuFGv1'
+				'x-api-key': process.env.REACT_APP_PRIVATE_KEY!
 			},
 			url: `https://api.swapzone.io/v1/exchange/validate/address?currency=${token}&address=${addres}`
 		}).then((data) => ({
@@ -129,6 +131,11 @@ const exhangeSlice = createSlice({
 		resetValidator: (state) => {
 			state.validationWallets.addres1 = null;
 			state.validationWallets.addres2 = null;
+		},
+		addTransaction: (state, { payload }: PayloadAction<any>) => {
+			console.log(payload);
+			state.transctionList = payload;
+			// state.transctionList.push( ...payload );
 		}
 	},
 	extraReducers: (builder) => {
@@ -150,8 +157,6 @@ const exhangeSlice = createSlice({
 				if (payload.input === 1) {
 					state.validationWallets.addres1 = payload;
 				} else {
-					console.log(payload);
-
 					state.validationWallets.addres2 = payload;
 				}
 			});
@@ -171,5 +176,6 @@ export const {
 	refreshData,
 	selectChanger,
 	cancellationExchange,
-	resetValidator
+	resetValidator,
+	addTransaction
 } = actions;

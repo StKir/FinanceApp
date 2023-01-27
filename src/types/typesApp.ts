@@ -15,3 +15,9 @@ export interface TvalidateAddress {
 	wallet: string;
 	token: string;
 }
+
+export interface Ttransactoin {
+	vallet1: string;
+	vallet2: string;
+	accept: boolean;
+}

@@ -1,9 +1,10 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useEffect } from 'react';
+import { useTransaction } from '../../hooks/useTransaction';
 import { resetValidator, validateWallet } from '../../store/exchangeSlice';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { exchangeData, TvalidatorWallet } from '../../types/storeTypes';
-
+import { Ttransactoin } from '../../types/typesApp';
 function ExchangerForm() {
 	const selectedChanger = useAppSelector(
 		(state) => state.exchange.selectedChanger
@@ -25,7 +26,7 @@ const RenderFormEx = ({
 	);
 	const dispatch = useAppDispatch();
 	const [form] = Form.useForm();
-	const { adapter, from, to, quotaId, amountFrom, amountTo } = selectedChanger;
+	const { adapter, from, to, amountFrom, amountTo } = selectedChanger;
 
 	useEffect(() => {
 		dispatch(resetValidator());
@@ -57,15 +58,28 @@ const RenderFormEx = ({
 		}
 	};
 
+	const onSubmitForm = (formInfo: Ttransactoin) => {
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useTransaction(
+			{ ...selectedChanger, ...formInfo },
+			process.env.REACT_APP_PRIVATE_KEY!,
+			dispatch
+		);
+	};
+
 	return (
 		<div className='exchanger_modal'>
-			<h2>Обменник - {adapter.toUpperCase()}</h2>
+			<h2>Обменник - {adapter.toUpperCase() || ''}</h2>
 			<h3>
-				{amountFrom + from.toUpperCase() + ' → ' + amountTo + to.toUpperCase()}
+				{amountFrom +
+					(from.toUpperCase() || '') +
+					' → ' +
+					amountTo +
+					(to.toUpperCase() || '')}
 			</h3>
 			<Form
 				form={form}
-				// onFinish={onSubmitForm}
+				onFinish={onSubmitForm}
 				name='exhange-req'
 				autoComplete='true'
 				layout='vertical'
@@ -98,7 +112,7 @@ const RenderFormEx = ({
 					<Input />
 				</Form.Item>
 				<Form.Item
-					name='remember'
+					name='accept'
 					valuePropName='checked'
 					rules={[
 						{

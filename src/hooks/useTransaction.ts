@@ -1,8 +1,7 @@
 import axios from 'axios';
+// import { addTransaction } from '../store/exchangeSlice';
 import { exchangeData } from '../types/storeTypes';
 import { Ttransactoin } from '../types/typesApp';
-import { useAppDispatch } from '../store/store';
-import { addTransaction } from '../store/exchangeSlice';
 
 export const useTransaction = (
 	trans: Ttransactoin & exchangeData,
@@ -24,9 +23,22 @@ export const useTransaction = (
 			refundAddress: vallet1,
 			quotaId
 		}
-	}).then((data) => dispatch(addTransaction(data.data)));
+	})
+		.then((data) => data.data.transaction)
+		// .then((data) =>
+		// 	dispatch(
+		// 		addTransaction({
+		// 			amountDeposit: data.amountDeposit,
+		// 			from: data.from,
+		// 			to: data.to,
+		// 			createdAt: data.createdAt,
+		// 			status: data.status,
+		// 			id: data.id
+		// 		})
+		// 	)
+		// )
+		.catch((e) => console.log(e));
 };
-
 export const getStatus = (id: string, key: string) => {
 	axios({
 		method: 'GET',

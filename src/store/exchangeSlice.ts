@@ -8,6 +8,7 @@ import axios from 'axios';
 import {
 	exchangeData,
 	Ttokens,
+	TtranRes,
 	TvalidatorRes,
 	TvalidatorWallet
 } from '../types/storeTypes';
@@ -27,7 +28,7 @@ type ExchangeAdaterType = {
 		addres1: TvalidatorRes | null;
 		addres2: TvalidatorRes | null;
 	};
-	transctionList: any[];
+	transctionList: [];
 };
 
 const initialState = {
@@ -47,7 +48,7 @@ const initialState = {
 			label: 'Загрузка!'
 		}
 	],
-	transctionList: {}
+	transctionList: []
 } as ExchangeAdaterType;
 
 export const fetchExhangeData = createAsyncThunk<exchangeData[], exhangeType>(
@@ -131,12 +132,20 @@ const exhangeSlice = createSlice({
 		resetValidator: (state) => {
 			state.validationWallets.addres1 = null;
 			state.validationWallets.addres2 = null;
-		},
-		addTransaction: (state, { payload }: PayloadAction<any>) => {
-			console.log(payload);
-			state.transctionList = payload;
-			// state.transctionList.push( ...payload );
 		}
+		// addTransaction: (state, { payload }: PayloadAction<TtranRes>) => {
+		// 	console.log(state.transctionList);
+		// 	console.log(payload);
+
+		// 	state.transctionList.push(payload);
+		// 	state.exchangeMoadal = false;
+		// 	state.selectedChanger = null;
+		// },
+		// changeStatusTransaction: (state, { payload }: PayloadAction<any>) => {
+		// 	state.transctionList.map(
+		// 		(el) => el.id === payload.id && (el.status = payload.status)
+		// 	);
+		// }
 	},
 	extraReducers: (builder) => {
 		builder
@@ -176,6 +185,5 @@ export const {
 	refreshData,
 	selectChanger,
 	cancellationExchange,
-	resetValidator,
-	addTransaction
+	resetValidator
 } = actions;

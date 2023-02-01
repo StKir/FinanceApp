@@ -1,8 +1,8 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useEffect } from 'react';
-import { useTransaction } from '../../hooks/useTransaction';
 import { resetValidator, validateWallet } from '../../store/exchangeSlice';
 import { useAppSelector, useAppDispatch } from '../../store/store';
+import { addTransaction } from '../../store/transactionSlice';
 import { exchangeData, TvalidatorWallet } from '../../types/storeTypes';
 import { Ttransactoin } from '../../types/typesApp';
 function ExchangerForm() {
@@ -60,11 +60,7 @@ const RenderFormEx = ({
 
 	const onSubmitForm = (formInfo: Ttransactoin) => {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
-		useTransaction(
-			{ ...selectedChanger, ...formInfo },
-			process.env.REACT_APP_PRIVATE_KEY!,
-			dispatch
-		);
+		dispatch(addTransaction({ ...selectedChanger, ...formInfo }));
 	};
 
 	return (

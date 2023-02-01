@@ -41,3 +41,12 @@ export interface TvalidatorWallet {
 export interface TvalidatorRes extends TvalidatorWallet {
 	status: boolean;
 }
+
+export interface TtranRes {
+	amountDeposit: string;
+	createdAt: string;
+	from: string;
+	to: string;
+	status: string;
+	id: string;
+}

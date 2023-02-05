@@ -40,11 +40,11 @@ export const useTransaction = (
 		.catch((e) => console.log(e));
 };
 export const getStatus = (id: string, key: string) => {
-	axios({
+	return axios({
 		method: 'GET',
 		headers: {
 			'x-api-key': key
 		},
 		url: `https://api.swapzone.io/v1/exchange/tx?id=${id}`
-	}).then((data) => console.log(data.data));
+	}).then((data) => data.data.transaction);
 };

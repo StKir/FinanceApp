@@ -5,6 +5,7 @@ import {
 	PayloadAction
 } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getStatus } from '../hooks/useTransaction';
 import { exchangeData, TtranRes } from '../types/storeTypes';
 import { Ttransactoin } from '../types/typesApp';
 import { RootState } from './store';
@@ -46,6 +47,18 @@ export const addTransaction = createAsyncThunk<
 	}
 );
 
+export const updateTransaction = createAsyncThunk(
+	'transaction/updateTransaction',
+	async (transactionID: string) => {
+		const response = await getStatus(
+			transactionID,
+			process.env.REACT_APP_PRIVATE_KEY!
+		);
+		console.log(Date.now(), response);
+		return response;
+	}
+);
+
 const transactionSlice = createSlice({
 	name: 'transaction',
 	initialState,
@@ -70,6 +83,12 @@ const transactionSlice = createSlice({
 			})
 			.addCase(addTransaction.rejected, (state) => {
 				state.LoadingStatus = 'error';
+			})
+			.addCase(updateTransaction.fulfilled, (state, { payload }) => {
+				const { id, ...changes } = payload;
+				console.log(payload);
+
+				TransactionAdater.updateOne(state, { id, changes });
 			});
 	}
 });

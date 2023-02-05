@@ -12,14 +12,14 @@ import { RootState } from './store';
 type TransactionAdapterType = {
 	entities: {};
 	ids: [];
-	LoadingStatus: 'idle' | 'loading' | 'error';
+	LoadingStatus: 'idle' | 'loading' | 'error' | 'start';
 };
 const TransactionAdater = createEntityAdapter<TtranRes>();
 
 const initialState = {
 	entities: {},
 	ids: [],
-	LoadingStatus: 'idle'
+	LoadingStatus: 'start'
 } as TransactionAdapterType;
 
 export const addTransaction = createAsyncThunk<
@@ -49,17 +49,24 @@ export const addTransaction = createAsyncThunk<
 const transactionSlice = createSlice({
 	name: 'transaction',
 	initialState,
-	reducers: {},
+	reducers: {
+		resetStatus: (state) => {
+			state.LoadingStatus = 'start';
+		}
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(addTransaction.pending, (state) => {
 				state.LoadingStatus = 'loading';
 			})
 			.addCase(addTransaction.fulfilled, (state, { payload }) => {
-				state.LoadingStatus = 'idle';
-				if (payload.transaction)
+				if (payload.transaction) {
 					TransactionAdater.addOne(state, payload.transaction);
-				if (payload.error) state.LoadingStatus = 'error';
+					state.LoadingStatus = 'idle';
+				}
+				if (payload.error) {
+					state.LoadingStatus = 'error';
+				}
 			})
 			.addCase(addTransaction.rejected, (state) => {
 				state.LoadingStatus = 'error';
@@ -72,5 +79,7 @@ const { reducer, actions } = transactionSlice;
 export const { selectAll } = TransactionAdater.getSelectors<RootState>(
 	(state) => state.transaction
 );
+
+export const { resetStatus } = actions;
 
 export default reducer;

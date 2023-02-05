@@ -133,19 +133,6 @@ const exhangeSlice = createSlice({
 			state.validationWallets.addres1 = null;
 			state.validationWallets.addres2 = null;
 		}
-		// addTransaction: (state, { payload }: PayloadAction<TtranRes>) => {
-		// 	console.log(state.transctionList);
-		// 	console.log(payload);
-
-		// 	state.transctionList.push(payload);
-		// 	state.exchangeMoadal = false;
-		// 	state.selectedChanger = null;
-		// },
-		// changeStatusTransaction: (state, { payload }: PayloadAction<any>) => {
-		// 	state.transctionList.map(
-		// 		(el) => el.id === payload.id && (el.status = payload.status)
-		// 	);
-		// }
 	},
 	extraReducers: (builder) => {
 		builder

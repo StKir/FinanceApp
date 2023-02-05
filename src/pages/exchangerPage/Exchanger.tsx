@@ -1,5 +1,5 @@
 import ExchangerInput from '../../components/exchangerInput/ExchangerInput';
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { exhangeType } from '../../types/typesApp';
 import ExchangeLoader from '../../components/exchangeLoader/ExchangeLoader';
@@ -8,14 +8,60 @@ import { cancellationExchange, selectAll } from '../../store/exchangeSlice';
 import { exchangeData } from '../../types/storeTypes';
 import Modal from 'antd/es/modal/Modal';
 import ExchangerForm from '../../components/exchangerForm/ExchangerForm';
+import { useEffect } from 'react';
+import { resetStatus } from '../../store/transactionSlice';
 
 function Catalog() {
 	const dispatch = useAppDispatch();
 	const data: exhangeType = useAppSelector((state) => state.exchange.data);
 	const adapters: exchangeData[] = useAppSelector(selectAll);
+	const transactionStatus: string = useAppSelector(
+		(state) => state.transaction.LoadingStatus
+	);
+	const [messageApi, contextHolder] = message.useMessage();
 	const isOpen: boolean = useAppSelector(
 		(state) => state.exchange.exchangeMoadal
 	);
+
+	useEffect(() => {
+		switch (transactionStatus) {
+			case 'loading':
+				warning();
+				break;
+			case 'error':
+				error();
+				break;
+			case 'idle':
+				success();
+				break;
+			default:
+				return;
+		}
+		// eslint-disable-next-line
+	}, [transactionStatus]);
+
+	const success = () => {
+		messageApi.open({
+			type: 'success',
+			content: 'Транзакция добавлена в доску!'
+		});
+		dispatch(resetStatus());
+	};
+
+	const error = () => {
+		messageApi.open({
+			type: 'error',
+			content: 'Ошибка при обработке транзакции, попробуйте еще раз!'
+		});
+		dispatch(resetStatus());
+	};
+
+	const warning = () => {
+		messageApi.open({
+			type: 'warning',
+			content: 'Ожидайте!'
+		});
+	};
 
 	const renderAdapters = (adapters: exchangeData[]): JSX.Element[] => {
 		return adapters.map((el, i) => {
@@ -30,6 +76,7 @@ function Catalog() {
 	const list = renderAdapters(adapters);
 	return (
 		<div className='container'>
+			{contextHolder}
 			<Modal
 				open={isOpen}
 				footer={null}

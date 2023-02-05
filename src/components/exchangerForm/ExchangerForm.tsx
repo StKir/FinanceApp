@@ -1,6 +1,10 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useEffect } from 'react';
-import { resetValidator, validateWallet } from '../../store/exchangeSlice';
+import {
+	cancellationExchange,
+	resetValidator,
+	validateWallet
+} from '../../store/exchangeSlice';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { addTransaction } from '../../store/transactionSlice';
 import { exchangeData, TvalidatorWallet } from '../../types/storeTypes';
@@ -61,6 +65,7 @@ const RenderFormEx = ({
 	const onSubmitForm = (formInfo: Ttransactoin) => {
 		// eslint-disable-next-line react-hooks/rules-of-hooks
 		dispatch(addTransaction({ ...selectedChanger, ...formInfo }));
+		dispatch(cancellationExchange());
 	};
 
 	return (

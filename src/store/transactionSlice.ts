@@ -43,7 +43,9 @@ export const addTransaction = createAsyncThunk<
 				refundAddress: vallet1,
 				quotaId
 			}
-		}).then((data) => data.data);
+		})
+			.then((data) => data.data)
+			.catch((err) => console.log(err));
 	}
 );
 

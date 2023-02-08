@@ -21,3 +21,14 @@ export interface Ttransactoin {
 	vallet2: string;
 	accept: boolean;
 }
+
+export interface Telement {
+	fromNetwork: string;
+	toNetwork: string;
+	status: string;
+	id: string;
+	amountDeposit: string;
+	amountEstimated: string;
+	createdAt: string;
+	addressDeposit: string;
+}

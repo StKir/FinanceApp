@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd';
 import React from 'react';
 import TransactionElement from '../../components/transactionElement/TransactionElement';
 import { useAppSelector } from '../../store/store';
@@ -12,7 +13,7 @@ function Board() {
 		});
 	};
 	const list = renderList(transactionList);
-	return <div className='container'>{list.length ? list : 'ПУСТО'}</div>;
+	return <div className='container'>{list.length ? list : null}</div>;
 }
 
 export default Board;

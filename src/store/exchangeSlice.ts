@@ -8,7 +8,6 @@ import axios from 'axios';
 import {
 	exchangeData,
 	Ttokens,
-	TtranRes,
 	TvalidatorRes,
 	TvalidatorWallet
 } from '../types/storeTypes';

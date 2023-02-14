@@ -24,10 +24,27 @@ function TransactionElement({ element }: { element: any }) {
 		amountEstimated,
 		addressDeposit
 	}: Telement = element;
+
 	useEffect(() => {
-		dispatch(updateTransaction(id));
+		if (status === ('waiting' || 'process')) {
+			console.log('open');
+			// dispatch(updateTransaction(id));
+		} else {
+			clearInterval(updateInterval);
+		}
+		return () => {
+			console.log('exit');
+
+			clearInterval(updateInterval);
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dispatch]);
+	}, []);
+
+	const updateInterval = setInterval(() => {
+		console.log('interval');
+
+		// dispatch(updateTransaction(id));
+	}, 3000);
 
 	const renderTcode = (status: string) => {
 		switch (status) {

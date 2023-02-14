@@ -79,12 +79,14 @@ export const getAllTokens = createAsyncThunk<Ttokens[]>(
 				'x-api-key': process.env.REACT_APP_PRIVATE_KEY!
 			},
 			url: 'https://api.swapzone.io/v1/exchange/currencies'
-		}).then((data) =>
-			data.data.map((el: exhangeTokens) => ({
-				value: el.ticker,
-				label: el.ticker.toUpperCase() + ' ' + el.name
-			}))
-		);
+		})
+			.then((data) =>
+				data.data.map((el: exhangeTokens) => ({
+					value: el.ticker,
+					label: el.ticker.toUpperCase() + ' ' + el.name
+				}))
+			)
+			.catch((err) => console.log(err));
 	}
 );
 

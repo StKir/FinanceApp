@@ -10,7 +10,6 @@ import {
 	selectAll
 } from '../../store/exchangeSlice';
 function ExchangerInput() {
-	const amount = useAppSelector(selectAll);
 	const tokens = useAppSelector((state) => state.exchange.tokens);
 	const selectedData = useAppSelector((state) => state.exchange.data);
 	const dispatch = useAppDispatch();
@@ -91,12 +90,7 @@ function ExchangerInput() {
 									options={tokens}
 								></Select>
 							</Form.Item>
-							<InputNumber
-								readOnly
-								value={amount[0]?.amountTo || null}
-								placeholder='Вы получите'
-								style={{ width: 200 }}
-							/>
+							<AmountForm />
 						</Input.Group>
 					</div>
 				</div>
@@ -105,6 +99,18 @@ function ExchangerInput() {
 				</Button>
 			</Form>
 		</div>
+	);
+}
+
+function AmountForm() {
+	const amount = useAppSelector(selectAll);
+	return (
+		<InputNumber
+			readOnly
+			value={amount[0]?.amountTo || null}
+			placeholder='Вы получите'
+			style={{ width: 200 }}
+		/>
 	);
 }
 

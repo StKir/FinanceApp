@@ -21,7 +21,6 @@ function Board() {
 				return <TransactionElementHistory key={el.id} element={el} />;
 			});
 	};
-	renderHistoryList(transactionList);
 
 	const active_list = renderActiveList(transactionList);
 	const history_list = renderHistoryList(transactionList);

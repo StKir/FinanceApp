@@ -56,7 +56,6 @@ export const updateTransaction = createAsyncThunk(
 			transactionID,
 			process.env.REACT_APP_PRIVATE_KEY!
 		);
-		console.log(Date.now(), response);
 		return response;
 	}
 );

@@ -1,27 +1,62 @@
 import { Button, Form, Input } from 'antd';
 import { useAppDispatch } from '../../store/store';
 import { login, changeTypeModal } from '../../store/authSlice';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	User,
+	updateProfile
+} from 'firebase/auth';
 import { registUser } from '../../types/storeTypes';
 
 function Registration() {
 	const dispatch = useAppDispatch();
 
-	const onFinish = (value: registUser) => {
+	const registerUser = async ({
+		email,
+		password,
+		name,
+		confirm
+	}: registUser) => {
 		const auth = getAuth();
-		console.log(value);
 
-		createUserWithEmailAndPassword(auth, value.email, value.password)
-			.then(({ user }) =>
-				dispatch(
-					login({
-						email: user.email,
-						id: user.uid,
-						token: user.getIdToken()
-					})
+		try {
+			await createUserWithEmailAndPassword(auth, email, password)
+				.then(({ user }) =>
+					dispatch(
+						login({
+							email: user.email,
+							token: user.email,
+							id: user.uid,
+							login: name
+						})
+					)
 				)
-			)
-			.catch(console.error);
+				.catch(console.error);
+			auth.currentUser &&
+				(await updateProfile(auth.currentUser, { displayName: name }).catch(
+					console.error
+				));
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const onFinish = (value: registUser) => {
+		registerUser(value);
+		// createUserWithEmailAndPassword(auth, value.email, value.password)
+		// 	.then(({ user }) =>
+		// 		dispatch(
+		// 			login({
+		// 				email: user.email,
+		// 				token: user.email,
+		// 				id: user.uid,
+		// 				login: user.providerData[0].displayName
+		// 			})
+		// 		)
+		// 	)
+		// 	.then((data) => console.log(data))
+		// 	.catch(console.error);
 	};
 	return (
 		<>

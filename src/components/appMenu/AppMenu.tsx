@@ -6,13 +6,15 @@ import { checkAuth, changeAuth, openModal } from '../../store/authSlice';
 import { Button } from 'antd';
 import logo from '../../assets/logo.png';
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Space } from 'antd';
+import { Avatar, Space, Typography } from 'antd';
 import AppAuth from './AppAuth';
 const { Header } = Layout;
 
 function AppMenu() {
 	const isAuth = useAppSelector(checkAuth);
+	const name = useAppSelector((state) => state.auth._user?.login);
 	const dispatch = useAppDispatch();
+	const { Text } = Typography;
 
 	const authHandle = (isAuth: boolean) => {
 		if (isAuth) {
@@ -21,6 +23,7 @@ function AppMenu() {
 			dispatch(openModal(true));
 		}
 	};
+	console.log(name);
 
 	const items = routeNames
 		.sort((el, el2) => el.id - el2.id)
@@ -87,13 +90,16 @@ function AppMenu() {
 							size={40}
 							style={
 								isAuth
-									? { backgroundColor: '#29B32E', marginRight: '20px' }
+									? { backgroundColor: '#29B32E', marginRight: '10px' }
 									: { backgroundColor: '#393939', marginRight: '20px' }
 							}
 							src={isAuth ? null : null}
 							icon={<UserOutlined />}
 						/>
 					</Space>
+					<Text style={{ wordBreak: 'normal', marginRight: '10px' }} strong>
+						{name}
+					</Text>
 					<div className='right-side-menu'>
 						<Button onClick={() => authHandle(isAuth)}>
 							{isAuth ? 'Выйти' : 'Войти'}

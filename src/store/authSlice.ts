@@ -1,15 +1,6 @@
-import {
-	createSlice,
-	createAsyncThunk,
-	createEntityAdapter,
-	createSelector,
-	PayloadAction
-} from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { authAdapterType, Tuser } from '../types/storeTypes';
 import { RootState } from './store';
-
-const authAdapter = createEntityAdapter<authAdapterType>();
 
 const initialState = {
 	isAuth: true,
@@ -24,6 +15,7 @@ const authSlice = createSlice({
 	reducers: {
 		changeAuth: (state, { payload }: PayloadAction<boolean>) => {
 			state.isAuth = payload;
+			state._user = null;
 		},
 		getUser: (state, { payload }: PayloadAction<any>) => {
 			state._user = payload;

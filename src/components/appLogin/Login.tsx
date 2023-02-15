@@ -8,12 +8,18 @@ function Login() {
 	const dispatch = useAppDispatch();
 	const onSubmitForm = (value: loginUser): void => {
 		const auth = getAuth();
-		console.log(value);
 		signInWithEmailAndPassword(auth, value.email, value.password)
-			.then(console.log)
-			.catch(console.error);
-
-		dispatch(login());
+			.then(({ user }) =>
+				dispatch(
+					login({
+						email: user.email,
+						token: user.email,
+						id: user.uid,
+						login: user.providerData[0].displayName
+					})
+				)
+			)
+			.catch((err) => console.log(err));
 	};
 
 	return (

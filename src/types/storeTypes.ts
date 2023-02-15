@@ -1,7 +1,7 @@
 export interface authAdapterType {
 	isAuth: boolean;
 	modalOpen: boolean;
-	_user: Tuser;
+	_user: Tuser | null;
 	modalType: 'reg' | 'log';
 }
 
@@ -58,8 +58,8 @@ export interface TtranRes {
 }
 
 export interface Tuser {
-	email: string;
-	login: string;
-	token: string;
+	email: string | null;
+	login: string | null;
+	token: string | null;
 	id: number | string;
 }

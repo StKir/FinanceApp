@@ -1,14 +1,27 @@
 import { Button, Form, Input } from 'antd';
 import { useAppDispatch } from '../../store/store';
 import { login, changeTypeModal } from '../../store/authSlice';
-import { user } from '../../types/storeTypes';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { registUser } from '../../types/storeTypes';
 
 function Registration() {
 	const dispatch = useAppDispatch();
 
-	const onFinish = (value: user) => {
+	const onFinish = (value: registUser) => {
+		const auth = getAuth();
 		console.log(value);
-		dispatch(login(value));
+
+		createUserWithEmailAndPassword(auth, value.email, value.password)
+			.then(({ user }) =>
+				dispatch(
+					login({
+						email: user.email,
+						id: user.uid,
+						token: user.getIdToken()
+					})
+				)
+			)
+			.catch(console.error);
 	};
 	return (
 		<>

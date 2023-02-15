@@ -27,24 +27,14 @@ function TransactionElement({ element }: { element: any }) {
 
 	useEffect(() => {
 		if (status === ('waiting' || 'process')) {
-			console.log('open');
-			// dispatch(updateTransaction(id));
-		} else {
-			clearInterval(updateInterval);
+			const updateInterval = setInterval(() => {
+				dispatch(updateTransaction(id));
+			}, 10000);
+			dispatch(updateTransaction(id));
+			return () => clearInterval(updateInterval);
 		}
-		return () => {
-			console.log('exit');
-
-			clearInterval(updateInterval);
-		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const updateInterval = setInterval(() => {
-		console.log('interval');
-
-		// dispatch(updateTransaction(id));
-	}, 3000);
 
 	const renderTcode = (status: string) => {
 		switch (status) {

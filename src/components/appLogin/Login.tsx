@@ -1,12 +1,19 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { login, changeTypeModal } from '../../store/authSlice';
 import { useAppDispatch } from '../../store/store';
-import { user } from '../../types/storeTypes';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { loginUser } from '../../types/storeTypes';
 
 function Login() {
 	const dispatch = useAppDispatch();
-	const onSubmitForm = (userData: user): void => {
-		dispatch(login(userData));
+	const onSubmitForm = (value: loginUser): void => {
+		const auth = getAuth();
+		console.log(value);
+		signInWithEmailAndPassword(auth, value.email, value.password)
+			.then(console.log)
+			.catch(console.error);
+
+		dispatch(login());
 	};
 
 	return (

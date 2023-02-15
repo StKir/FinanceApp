@@ -6,7 +6,7 @@ import {
 	PayloadAction
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { authAdapterType, user } from '../types/storeTypes';
+import { authAdapterType, Tuser } from '../types/storeTypes';
 import { RootState } from './store';
 
 const authAdapter = createEntityAdapter<authAdapterType>();
@@ -31,8 +31,7 @@ const authSlice = createSlice({
 		openModal: (state, { payload }: PayloadAction<boolean>) => {
 			state.modalOpen = payload;
 		},
-		login: (state, { payload }: PayloadAction<user>) => {
-			//заглушка
+		login: (state, { payload }: PayloadAction<Tuser>) => {
 			state._user = payload;
 			state.isAuth = true;
 			state.modalOpen = false;

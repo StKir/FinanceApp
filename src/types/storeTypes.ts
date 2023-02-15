@@ -1,16 +1,22 @@
 export interface authAdapterType {
 	isAuth: boolean;
 	modalOpen: boolean;
-	_user: user;
+	_user: Tuser;
 	modalType: 'reg' | 'log';
 }
 
-export interface user {
-	id: string | number;
-	name?: string;
+export interface loginUser {
 	email: string;
-	remember?: boolean;
-	password?: string;
+	password: string;
+	remember: boolean;
+}
+
+export interface registUser {
+	email: string;
+	name: string;
+	password: string;
+	remember: boolean;
+	confirm: string;
 }
 
 export interface exchangeData {
@@ -49,4 +55,11 @@ export interface TtranRes {
 	to: string;
 	status: string;
 	id: string;
+}
+
+export interface Tuser {
+	email: string;
+	login: string;
+	token: string;
+	id: number | string;
 }

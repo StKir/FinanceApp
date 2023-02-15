@@ -87,7 +87,7 @@ const transactionSlice = createSlice({
 			})
 			.addCase(updateTransaction.fulfilled, (state, { payload }) => {
 				const { id, ...changes } = payload;
-				console.log(payload);
+				console.log('update');
 
 				TransactionAdater.updateOne(state, { id, changes });
 			});

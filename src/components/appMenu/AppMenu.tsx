@@ -2,29 +2,35 @@ import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { routeNames } from '../../routes';
 import { useAppSelector, useAppDispatch } from '../../store/store';
-import { checkAuth, changeAuth, openModal } from '../../store/authSlice';
+import { checkAuth, changeAuth, openModal, login } from '../../store/authSlice';
 import { Button } from 'antd';
 import logo from '../../assets/logo.png';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space, Typography } from 'antd';
 import AppAuth from './AppAuth';
+import { getAuth, signOut } from 'firebase/auth';
 const { Header } = Layout;
 
 function AppMenu() {
 	const isAuth = useAppSelector(checkAuth);
-	const name = useAppSelector((state) => state.auth._user?.login);
+	const name = useAppSelector((state) => state.auth._user);
 	const dispatch = useAppDispatch();
 	const { Text } = Typography;
 
 	const authHandle = (isAuth: boolean) => {
 		if (isAuth) {
-			dispatch(changeAuth(false));
+			const auth = getAuth();
+			signOut(auth)
+				.then(() => {
+					dispatch(changeAuth(false));
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		} else {
 			dispatch(openModal(true));
 		}
 	};
-	console.log(name);
-
 	const items = routeNames
 		.sort((el, el2) => el.id - el2.id)
 		.filter((el) => (isAuth ? el : el.auth === isAuth))
@@ -98,7 +104,7 @@ function AppMenu() {
 						/>
 					</Space>
 					<Text style={{ wordBreak: 'normal', marginRight: '10px' }} strong>
-						{name}
+						{name?.login}
 					</Text>
 					<div className='right-side-menu'>
 						<Button onClick={() => authHandle(isAuth)}>

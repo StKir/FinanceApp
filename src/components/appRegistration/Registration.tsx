@@ -4,7 +4,6 @@ import { login, changeTypeModal } from '../../store/authSlice';
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
-	User,
 	updateProfile
 } from 'firebase/auth';
 import { registUser } from '../../types/storeTypes';
@@ -42,27 +41,11 @@ function Registration() {
 		}
 	};
 
-	const onFinish = (value: registUser) => {
-		registerUser(value);
-		// createUserWithEmailAndPassword(auth, value.email, value.password)
-		// 	.then(({ user }) =>
-		// 		dispatch(
-		// 			login({
-		// 				email: user.email,
-		// 				token: user.email,
-		// 				id: user.uid,
-		// 				login: user.providerData[0].displayName
-		// 			})
-		// 		)
-		// 	)
-		// 	.then((data) => console.log(data))
-		// 	.catch(console.error);
-	};
 	return (
 		<>
 			<h1 style={{ display: 'flex', justifyContent: 'center' }}>Регистрация</h1>
 			<Form
-				onFinish={onFinish}
+				onFinish={registerUser}
 				name='basic'
 				initialValues={{ remember: true }}
 				autoComplete='true'

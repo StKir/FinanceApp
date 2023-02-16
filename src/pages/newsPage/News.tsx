@@ -1,11 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { useCheckAuth } from '../../hooks/useAuth';
 
 function News() {
-  return (
-    <div>
-      News
-    </div>
-  )
+	useCheckAuth();
+	return <div>News</div>;
 }
 
-export default News
+export default News;

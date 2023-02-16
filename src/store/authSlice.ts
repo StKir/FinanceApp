@@ -3,7 +3,7 @@ import { authAdapterType, Tuser } from '../types/storeTypes';
 import { RootState } from './store';
 
 const initialState = {
-	isAuth: true,
+	isAuth: false,
 	_user: {},
 	modalOpen: false,
 	modalType: 'log'

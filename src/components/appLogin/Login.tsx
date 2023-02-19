@@ -4,7 +4,6 @@ import { useAppDispatch } from '../../store/store';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { loginUser } from '../../types/storeTypes';
 import { useEffect, useState } from 'react';
-import { useCheckAuth } from '../../hooks/useAuth';
 
 function Login() {
 	const [errorMessage, setErrorMessage] = useState<string>('');
@@ -12,7 +11,6 @@ function Login() {
 	const dispatch = useAppDispatch();
 	const onSubmitForm = (value: loginUser): void => {
 		const auth = getAuth();
-		console.log(auth);
 		signInWithEmailAndPassword(auth, value.email, value.password)
 			.then(({ user }) =>
 				dispatch(
@@ -28,10 +26,6 @@ function Login() {
 			.catch((err) => errorSwitch(err.code));
 	};
 
-	useEffect(() => {
-		return () => setErrorMessage('');
-	});
-
 	const errorSwitch = (massage: string): void => {
 		switch (massage) {
 			case 'auth/user-not-found':
@@ -46,6 +40,7 @@ function Login() {
 				break;
 			default:
 				setErrorMessage('Что-то пошло не так, попробуйте позже!');
+				break;
 		}
 	};
 	return (

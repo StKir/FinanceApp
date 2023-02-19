@@ -11,12 +11,7 @@ import { registUser } from '../../types/storeTypes';
 function Registration() {
 	const dispatch = useAppDispatch();
 
-	const registerUser = async ({
-		email,
-		password,
-		name,
-		confirm
-	}: registUser) => {
+	const registerUser = async ({ email, password, name }: registUser) => {
 		const auth = getAuth();
 
 		try {
@@ -127,7 +122,6 @@ function Registration() {
 						style={{ marginLeft: '10px' }}
 						type='primary'
 						htmlType='submit'
-						// onClick={() => dispatch(changeTypeModal('reg'))}
 					>
 						Зарегистрироваться
 					</Button>

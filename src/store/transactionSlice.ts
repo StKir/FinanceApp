@@ -6,15 +6,14 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getStatus } from '../hooks/useTransaction';
-import { exchangeData, TtranRes } from '../types/storeTypes';
+import {
+	exchangeData,
+	TransactionAdapterType,
+	TtranRes
+} from '../types/storeTypes';
 import { Ttransactoin } from '../types/typesApp';
 import { RootState } from './store';
 
-type TransactionAdapterType = {
-	entities: {};
-	ids: [];
-	LoadingStatus: 'idle' | 'loading' | 'error' | 'start';
-};
 const TransactionAdater = createEntityAdapter<TtranRes>();
 
 const initialState = {
@@ -66,6 +65,11 @@ const transactionSlice = createSlice({
 	reducers: {
 		resetStatus: (state) => {
 			state.LoadingStatus = 'start';
+		},
+		testStatus: (state, { payload }: PayloadAction<string>) => {
+			const changes = { status: 'success' };
+			const id = payload;
+			TransactionAdater.updateOne(state, { id, changes });
 		}
 	},
 	extraReducers: (builder) => {
@@ -88,7 +92,6 @@ const transactionSlice = createSlice({
 			.addCase(updateTransaction.fulfilled, (state, { payload }) => {
 				const { id, ...changes } = payload;
 				console.log('update');
-
 				TransactionAdater.updateOne(state, { id, changes });
 			});
 	}
@@ -100,6 +103,6 @@ export const { selectAll } = TransactionAdater.getSelectors<RootState>(
 	(state) => state.transaction
 );
 
-export const { resetStatus } = actions;
+export const { resetStatus, testStatus } = actions;
 
 export default reducer;

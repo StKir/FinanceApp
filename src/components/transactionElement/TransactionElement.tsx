@@ -1,7 +1,7 @@
 import { Card, Steps } from 'antd';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/store';
-import { updateTransaction } from '../../store/transactionSlice';
+import { testStatus, updateTransaction } from '../../store/transactionSlice';
 import { QRCode } from 'antd';
 import { Telement } from '../../types/typesApp';
 import './transactionElement.scss';
@@ -28,26 +28,16 @@ function TransactionElement({ element }: { element: any }) {
 	useEffect(() => {
 		if (status === ('waiting' || 'process')) {
 			const updateInterval = setInterval(() => {
-				dispatch(updateTransaction(id));
+				if (status === ('waiting' || 'process')) {
+					//Дополнительная проверка необходима для обновления статуса внутри интервала
+					dispatch(updateTransaction(id));
+				}
 			}, 10000);
 			dispatch(updateTransaction(id));
 			return () => clearInterval(updateInterval);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	const renderTcode = (status: string) => {
-		switch (status) {
-			case 'waiting':
-				return DepositQR(addressDeposit);
-			case 'success':
-				return DepositFinish();
-			case 'overdue' || 'error':
-				return DepositError();
-			case 'process':
-				return DepositProcess();
-		}
-	};
 
 	const renderStepCode = (
 		status: string
@@ -81,7 +71,7 @@ function TransactionElement({ element }: { element: any }) {
 		}
 	};
 	const stepCode = renderStepCode(status);
-	const code = renderTcode(status);
+	const code = renderTcode(status, addressDeposit, 100);
 
 	return (
 		<Card
@@ -99,6 +89,7 @@ function TransactionElement({ element }: { element: any }) {
 		>
 			{StepsTrans(stepCode)}
 			<div className='deposit-wrp'>{code}</div>
+			<button onClick={() => dispatch(testStatus(id))}>test</button>
 		</Card>
 	);
 }
@@ -117,42 +108,59 @@ function DepositQR(addressDeposit: string) {
 	);
 }
 
-function DepositProcess() {
+export const renderTcode = (
+	status: string,
+	addressDeposit: string,
+	size: number
+) => {
+	switch (status) {
+		case 'waiting':
+			return DepositQR(addressDeposit);
+		case 'success':
+			return DepositFinish(size);
+		case 'overdue' || 'error':
+			return DepositError(size);
+		case 'process':
+			return DepositProcess(size);
+	}
+};
+
+function DepositProcess(size: number) {
 	return (
 		<div className='depositInfo'>
 			<LoadingOutlined
 				twoToneColor='#29B22E'
 				spin={true}
-				style={{ fontSize: 100 }}
+				style={{ fontSize: size }}
 			/>
 			<h4>Ожидание процесса обмена</h4>
 		</div>
 	);
 }
 
-function DepositFinish() {
+function DepositFinish(size: number) {
 	return (
 		<div className='depositInfo'>
-			<CheckCircleFilled twoToneColor='#29B22E' style={{ fontSize: 100 }} />
+			<CheckCircleFilled style={{ fontSize: size }} />
 			<h4>Обмен успешно завершен</h4>
 		</div>
 	);
 }
-
-function DepositError() {
+function DepositError(size: number) {
 	return (
 		<div className='depositInfo'>
-			<CloseCircleFilled style={{ fontSize: 100 }} />
+			<CloseCircleFilled style={{ fontSize: size }} />
 			<h4>Произошла ошибка, попробуйте снова!</h4>
 		</div>
 	);
 }
 
 function StepsTrans(stepCode: { step: number; status: stepCodeMod }) {
+	const { status, step } = stepCode;
 	return (
 		<Steps
-			current={stepCode.step}
-			status={stepCode.status}
+			current={step}
+			status={status}
 			items={[
 				{
 					title: 'Ожидание оплаты',
@@ -164,7 +172,10 @@ function StepsTrans(stepCode: { step: number; status: stepCodeMod }) {
 				},
 				{
 					title: 'Финиш',
-					description: 'Транзакция успешно выполнена!'
+					description:
+						status === 'error'
+							? 'Произошла ошибка!'
+							: 'Транзакция успешно выполнена!'
 				}
 			]}
 		/>

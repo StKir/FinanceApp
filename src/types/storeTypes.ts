@@ -1,3 +1,5 @@
+import { exhangeType } from './typesApp';
+
 export interface authAdapterType {
 	isAuth: boolean;
 	modalOpen: boolean;
@@ -63,3 +65,24 @@ export interface Tuser {
 	token: string | null;
 	id: number | string;
 }
+
+export type ExchangeAdaterType = {
+	LoadingStatus: 'idle' | 'loading' | 'error';
+	data: exhangeType;
+	entities: {};
+	ids: [];
+	selectedChanger: exchangeData | null;
+	exchangeMoadal: boolean;
+	tokens: Ttokens[];
+	validationWallets: {
+		addres1: TvalidatorRes | null;
+		addres2: TvalidatorRes | null;
+	};
+	transctionList: [];
+};
+
+export type TransactionAdapterType = {
+	entities: {};
+	ids: [];
+	LoadingStatus: 'idle' | 'loading' | 'error' | 'start';
+};

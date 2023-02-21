@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
+	ExchangeAdaterType,
 	exchangeData,
 	Ttokens,
 	TvalidatorRes,
@@ -14,21 +15,6 @@ import {
 import { exhangeTokens, exhangeType } from '../types/typesApp';
 import { RootState } from './store';
 const ExchangeAdater = createEntityAdapter<exchangeData>();
-
-type ExchangeAdaterType = {
-	LoadingStatus: 'idle' | 'loading' | 'error';
-	data: exhangeType;
-	entities: {};
-	ids: [];
-	selectedChanger: exchangeData | null;
-	exchangeMoadal: boolean;
-	tokens: Ttokens[];
-	validationWallets: {
-		addres1: TvalidatorRes | null;
-		addres2: TvalidatorRes | null;
-	};
-	transctionList: [];
-};
 
 const initialState = {
 	entities: {},

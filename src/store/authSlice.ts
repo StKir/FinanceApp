@@ -24,10 +24,12 @@ const authSlice = createSlice({
 			state.modalOpen = payload;
 		},
 		login: (state, { payload }: PayloadAction<Tuser>) => {
-			state._user = payload;
-			state.isAuth = true;
-			state.modalOpen = false;
-			state.modalType = 'log';
+			if (payload.email !== state._user?.email) {
+				state._user = payload;
+				state.isAuth = true;
+				state.modalOpen = false;
+				state.modalType = 'log';
+			}
 		},
 		changeTypeModal: (state, { payload }: PayloadAction<'log' | 'reg'>) => {
 			state.modalType = payload;

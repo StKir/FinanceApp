@@ -1,10 +1,12 @@
 import TransactionElement from '../../components/transactionElement/TransactionElement';
 import TransactionElementHistory from '../../components/transactionElement/TransactionElementHistory';
+import { useCheckAuth } from '../../hooks/useAuth';
 import { useAppSelector } from '../../store/store';
 import { selectAll } from '../../store/transactionSlice';
 
 function Board() {
 	const transactionList = useAppSelector(selectAll);
+	useCheckAuth();
 
 	const renderActiveList = (list: any[]) => {
 		return list
@@ -58,16 +60,20 @@ function Board() {
 				</div>
 				<div className='trans-history'>
 					<h1>История транзакций</h1>
-					<div className='history-list'>
+					<div
+						className='history-list'
+						style={{
+							display: 'grid',
+							gridTemplateColumns: '1fr 1fr 1fr',
+							gridGap: 20
+						}}
+					>
 						{history_list.length ? history_list : <h3>История пуста</h3>}
 					</div>
 				</div>
 			</>
 		);
 	}
-
-	console.log(active_list.length && history_list.length);
-	console.log(active_list);
 
 	return (
 		<div className='container'>

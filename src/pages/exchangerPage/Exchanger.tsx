@@ -10,6 +10,7 @@ import Modal from 'antd/es/modal/Modal';
 import ExchangerForm from '../../components/exchangerForm/ExchangerForm';
 import { useEffect } from 'react';
 import { resetStatus } from '../../store/transactionSlice';
+import { useCheckAuth } from '../../hooks/useAuth';
 
 function Catalog() {
 	const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ function Catalog() {
 	const isOpen: boolean = useAppSelector(
 		(state) => state.exchange.exchangeMoadal
 	);
+	useCheckAuth();
 
 	useEffect(() => {
 		switch (transactionStatus) {

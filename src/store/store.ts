@@ -10,7 +10,8 @@ const store = configureStore({
 		exchange: exhangeReducer,
 		transaction: transactionReducer
 	},
-	devTools: process.env.NODE_ENV !== 'production'
+	devTools: process.env.NODE_ENV !== 'production',
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware()
 });
 export type AppDispatch = typeof store.dispatch;
 

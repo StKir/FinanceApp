@@ -5,7 +5,6 @@ const Exchanger = lazy(() => import('./pages/exchangerPage/Exchanger'));
 const Board = lazy(() => import('./pages/boardPage/Board'));
 const Admin = lazy(() => import('./pages/adminPage/AdminPage'));
 const News = lazy(() => import('./pages/newsPage/News'));
-const Auth = lazy(() => import('./pages/authPage/Auth'));
 const Main = lazy(() => import('./pages/Main/Main'));
 
 interface route {
@@ -76,13 +75,5 @@ export const publicRoutes: route[] = [
 	{
 		path: '/',
 		Component: Main
-	},
-	{
-		path: '/login',
-		Component: Auth
-	},
-	{
-		path: '/register',
-		Component: Auth
 	}
 ];

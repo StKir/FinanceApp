@@ -1,5 +1,5 @@
 import ExchangerInput from '../../components/exchangerInput/ExchangerInput';
-import { Col, message, Row } from 'antd';
+import { message } from 'antd';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { exhangeType } from '../../types/typesApp';
 import ExchangeLoader from '../../components/exchangeLoader/ExchangeLoader';
@@ -11,11 +11,14 @@ import ExchangerForm from '../../components/exchangerForm/ExchangerForm';
 import { useEffect } from 'react';
 import { resetStatus } from '../../store/transactionSlice';
 import { useCheckAuth } from '../../hooks/useAuth';
+import AppAuthMassage from '../../components/appAuthMassage/AppAuthMassage';
+import './exchanger.scss';
 
 function Catalog() {
 	const dispatch = useAppDispatch();
 	const data: exhangeType = useAppSelector((state) => state.exchange.data);
 	const adapters: exchangeData[] = useAppSelector(selectAll);
+	const isAuth: boolean = useAppSelector((state) => state.auth.isAuth);
 	const transactionStatus: string = useAppSelector(
 		(state) => state.transaction.LoadingStatus
 	);
@@ -75,6 +78,10 @@ function Catalog() {
 		});
 	};
 
+	if (!isAuth) {
+		return <AppAuthMassage />;
+	}
+
 	const list = renderAdapters(adapters);
 	return (
 		<div className='container'>
@@ -87,23 +94,57 @@ function Catalog() {
 				Шаг 3. Введите данные для перевода
 				<ExchangerForm />
 			</Modal>
-			<h1>Обменник</h1>
-			<Row>
-				<Col span={8}>
-					<div className='content-grid'></div>
+			<h1
+				style={{
+					textAlign: 'center'
+				}}
+			>
+				Обменник
+			</h1>
+			<div>
+				<div className='part-1_Form'>
 					<span style={{ fontSize: 18 }}>Шаг 1. Выберете криптовалюты</span>
 					<ExchangerInput />
-				</Col>
+				</div>
 				{data.send ? (
-					<Col span={16}>
+					<div className='part-2_items'>
 						<span style={{ fontSize: 18 }}>Шаг 2. Выберете условия обмена</span>
 						<ExchangeLoader />
 						{list}
-					</Col>
+					</div>
 				) : null}
-			</Row>
+			</div>
 		</div>
 	);
 }
 
 export default Catalog;
+
+// return (
+// 	<div className='container'>
+// 		{contextHolder}
+// 		<Modal
+// 			open={isOpen}
+// 			footer={null}
+// 			onCancel={() => dispatch(cancellationExchange())}
+// 		>
+// 			Шаг 3. Введите данные для перевода
+// 			<ExchangerForm />
+// 		</Modal>
+// 		<h1>Обменник</h1>
+// 		<Row>
+// 			<Col span={8}>
+// 				<div className='content-grid'></div>
+// 				<span style={{ fontSize: 18 }}>Шаг 1. Выберете криптовалюты</span>
+// 				<ExchangerInput />
+// 			</Col>
+// 			{data.send ? (
+// 				<Col span={16}>
+// 					<span style={{ fontSize: 18 }}>Шаг 2. Выберете условия обмена</span>
+// 					<ExchangeLoader />
+// 					{list}
+// 				</Col>
+// 			) : null}
+// 		</Row>
+// 	</div>
+// );

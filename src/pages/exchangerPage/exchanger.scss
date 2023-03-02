@@ -1,0 +1,14 @@
+.part-2_items {
+	display: grid;
+	grid-template-columns: 80%;
+	width: 100%;
+	justify-content: center;
+	justify-items: center;
+}
+.part-1_Form {
+	width: 100%;
+	grid-template-columns: 100%;
+	display: grid;
+	justify-items: center;
+	justify-content: center;
+}

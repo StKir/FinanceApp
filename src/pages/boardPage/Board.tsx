@@ -1,3 +1,4 @@
+import AppAuthMassage from '../../components/appAuthMassage/AppAuthMassage';
 import TransactionElement from '../../components/transactionElement/TransactionElement';
 import TransactionElementHistory from '../../components/transactionElement/TransactionElementHistory';
 import { useCheckAuth } from '../../hooks/useAuth';
@@ -6,6 +7,7 @@ import { selectAll } from '../../store/transactionSlice';
 
 function Board() {
 	const transactionList = useAppSelector(selectAll);
+	const isAuth: boolean = useAppSelector((state) => state.auth.isAuth);
 	useCheckAuth();
 
 	const renderActiveList = (list: any[]) => {
@@ -73,6 +75,10 @@ function Board() {
 				</div>
 			</>
 		);
+	}
+
+	if (!isAuth) {
+		return <AppAuthMassage />;
 	}
 
 	return (

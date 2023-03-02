@@ -1,0 +1,47 @@
+.MainOffer-wrp {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.mainOffer__offer {
+	width: 45%;
+	h1 {
+		font-family: 'Segoe UI';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 48px;
+		padding: 0;
+	}
+	span,
+	h1 {
+		display: block;
+		margin-bottom: 15px;
+	}
+}
+.offer_btn-group {
+	display: flex;
+	grid-gap: 25px;
+}
+
+.MainOffer-imgs {
+	display: inline-block;
+	position: relative;
+	width: 45%;
+	height: 500px;
+	&-blur {
+		position: absolute;
+		width: 800px;
+		height: 400px;
+		background: #29cb56;
+		filter: blur(100px);
+		top: 100px;
+		left: calc(50% - 200px);
+		z-index: -1;
+	}
+	&-img1 {
+		position: absolute;
+		z-index: 0;
+		width: 100%;
+	}
+}

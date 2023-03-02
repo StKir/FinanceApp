@@ -33,7 +33,6 @@ function AppMenu() {
 	};
 	const items = routeNames
 		.sort((el, el2) => el.id - el2.id)
-		.filter((el) => (isAuth ? el : el.auth === isAuth))
 		.map(({ name, route, id }) => ({
 			key: id,
 			label: (

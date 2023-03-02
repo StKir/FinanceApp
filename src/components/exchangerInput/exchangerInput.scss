@@ -3,12 +3,54 @@
 	padding: 25px 25px;
 	.title {
 		display: block;
-		margin-bottom: 15px;
 	}
-	.send {
-		margin-bottom: 10px;
-		.send-form {
-			display: flex;
-		}
+}
+.forms_wrp {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.input_amount {
+	width: 100%;
+	padding-top: 20px;
+	font-size: 32px;
+	margin: 0;
+}
+.ex-block {
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+.inputs_wrp {
+	display: grid !important;
+	grid-gap: 0;
+	.token-wrp {
+		margin: 0;
 	}
+}
+
+.send-form {
+	width: 100%;
+	.css-dev-only-do-not-override-1swo7mn {
+		margin: 0;
+	}
+}
+.mainForm {
+	width: 100%;
+	display: grid;
+	grid-gap: 20px;
+	justify-items: center;
+}
+
+.title {
+	font-size: 18px;
+	margin-right: 5px;
+	font-weight: 300;
+	writing-mode: vertical-lr;
+}
+
+.change-img {
+	width: 50px;
+	margin: 0 20px;
 }

@@ -86,3 +86,30 @@ export type TransactionAdapterType = {
 	ids: [];
 	LoadingStatus: 'idle' | 'loading' | 'error' | 'start';
 };
+
+export interface TtransactionItem extends TtranRes {
+	quotaId: string;
+	fromNetwork: string;
+	toNetwork: string;
+	addressReceive: string;
+	extraIdReceive: string;
+	addressDeposit: string;
+	extraIdDeposit: string;
+	amountEstimated: string;
+	payinHash: null | string;
+	payoutHash: null | string;
+	hashReceive: null | string;
+	depositReceivedAt: null | string;
+	payTill: null | string;
+	fee: number;
+	refundExtraId: string;
+	refundAddress: string;
+	userUnique: string;
+	amountRealReceive: string;
+	amountFromBtc: string;
+}
+
+export interface TerrorTranstaction {
+	error: boolean;
+	massage: string;
+}

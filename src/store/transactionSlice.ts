@@ -8,8 +8,10 @@ import axios from 'axios';
 import { getStatus } from '../hooks/useTransaction';
 import {
 	exchangeData,
+	TerrorTranstaction,
 	TransactionAdapterType,
-	TtranRes
+	TtranRes,
+	TtransactionItem
 } from '../types/storeTypes';
 import { Ttransactoin } from '../types/typesApp';
 import { RootState } from './store';
@@ -23,7 +25,7 @@ const initialState = {
 } as TransactionAdapterType;
 
 export const addTransaction = createAsyncThunk<
-	any,
+	TtransactionItem | TerrorTranstaction,
 	Ttransactoin & exchangeData
 >(
 	'transaction/addTransaction',
@@ -78,11 +80,11 @@ const transactionSlice = createSlice({
 				state.LoadingStatus = 'loading';
 			})
 			.addCase(addTransaction.fulfilled, (state, { payload }) => {
-				if (payload.transaction) {
-					TransactionAdater.addOne(state, payload.transaction);
+				if ('id' in payload) {
+					TransactionAdater.addOne(state, payload);
 					state.LoadingStatus = 'idle';
 				}
-				if (payload.error) {
+				if ('error' in payload) {
 					state.LoadingStatus = 'error';
 				}
 			})

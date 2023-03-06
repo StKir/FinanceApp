@@ -24,14 +24,11 @@ function Main() {
 								{logStatus ? <LogBtnGroup /> : <RegBtnGroup />}
 							</div>
 						</div>
-						<div className='MainOffer-imgs'>
-							<img
-								src={MainPageBtcImg}
-								className='MainOffer-imgs-img1'
-								alt='MainPageBtcImg'
-							/>
-							<div className='MainOffer-imgs-blur'></div>
-						</div>
+						<img
+							src={MainPageBtcImg}
+							className='MainOffer-imgs-img1'
+							alt='MainPageBtcImg'
+						/>
 					</div>
 				</div>
 			</section>

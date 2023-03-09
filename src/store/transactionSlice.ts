@@ -45,7 +45,9 @@ export const addTransaction = createAsyncThunk<
 				quotaId
 			}
 		})
-			.then((data) => data.data)
+			.then((data) =>
+				'transaction' in data.data ? data.data.transaction : data.data
+			)
 			.catch((err) => console.log(err));
 	}
 );
@@ -80,12 +82,11 @@ const transactionSlice = createSlice({
 				state.LoadingStatus = 'loading';
 			})
 			.addCase(addTransaction.fulfilled, (state, { payload }) => {
-				if ('id' in payload) {
-					TransactionAdater.addOne(state, payload);
-					state.LoadingStatus = 'idle';
-				}
 				if ('error' in payload) {
 					state.LoadingStatus = 'error';
+				} else {
+					TransactionAdater.addOne(state, payload);
+					state.LoadingStatus = 'idle';
 				}
 			})
 			.addCase(addTransaction.rejected, (state) => {

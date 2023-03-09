@@ -16,7 +16,8 @@ function AppAuthMassage() {
 				style={{
 					width: '100%',
 					display: 'grid',
-					justifyItems: 'center'
+					justifyItems: 'center',
+					marginTop: 30
 				}}
 			>
 				<img src={emoji} alt='emoji' />

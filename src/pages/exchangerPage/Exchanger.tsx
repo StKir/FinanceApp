@@ -103,12 +103,16 @@ function Catalog() {
 			</h1>
 			<div>
 				<div className='part-1_Form'>
-					<span style={{ fontSize: 18 }}>Шаг 1. Выберете криптовалюты</span>
+					<span style={{ fontSize: 18, textAlign: 'center' }}>
+						Шаг 1. Выберете криптовалюты
+					</span>
 					<ExchangerInput />
 				</div>
 				{data.send ? (
 					<div className='part-2_items'>
-						<span style={{ fontSize: 18 }}>Шаг 2. Выберете условия обмена</span>
+						<span style={{ fontSize: 18, textAlign: 'center' }}>
+							Шаг 2. Выберете условия обмена
+						</span>
 						<ExchangeLoader />
 						{list}
 					</div>

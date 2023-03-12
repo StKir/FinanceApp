@@ -1,7 +1,7 @@
 import { Card, Steps } from 'antd';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/store';
-import { testStatus, updateTransaction } from '../../store/transactionSlice';
+import { updateTransaction } from '../../store/transactionSlice';
 import { QRCode } from 'antd';
 import { Telement } from '../../types/typesApp';
 import './transactionElement.scss';
@@ -89,7 +89,6 @@ function TransactionElement({ element }: { element: any }) {
 		>
 			{StepsTrans(stepCode)}
 			<div className='deposit-wrp'>{code}</div>
-			<button onClick={() => dispatch(testStatus(id))}>test</button>
 		</Card>
 	);
 }

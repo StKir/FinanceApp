@@ -50,7 +50,12 @@ function Board() {
 	function boardNotEmpty() {
 		return (
 			<>
-				<div className='trans-active'>
+				<div
+					className='trans-active'
+					style={{
+						textAlign: 'center'
+					}}
+				>
 					<h1>Активные транзакции</h1>
 					<div className='active-list'>
 						{active_list.length ? (

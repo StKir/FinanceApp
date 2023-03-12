@@ -10,7 +10,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space, Typography } from 'antd';
 import AppAuth from './AppAuth';
 import { getAuth, signOut } from 'firebase/auth';
-
 const { Header } = Layout;
 
 function AppMenu() {

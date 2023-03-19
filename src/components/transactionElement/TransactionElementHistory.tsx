@@ -13,7 +13,7 @@ function TransactionElementHistory({ element }: { element: any }) {
 		addressDeposit
 	}: Telement = element;
 
-	const iconcode = renderTcode(status, addressDeposit, 50);
+	const iconcode = renderTcode(status, addressDeposit, 50, () => null);
 	return (
 		<Card
 			className='historyElementCard'

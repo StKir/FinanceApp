@@ -2,9 +2,10 @@ import './App.css';
 import AppMenu from './components/appMenu/AppMenu';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './components/AppRoutes';
-import store from './store/store';
+import store, { persistor } from './store/store';
 import { Provider } from 'react-redux';
 import { ConfigProvider } from 'antd';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
 	return (
@@ -17,10 +18,12 @@ function App() {
 				}}
 			>
 				<Provider store={store}>
-					<Router>
-						<AppMenu />
-						<AppRouter />
-					</Router>
+					<PersistGate loading={null} persistor={persistor}>
+						<Router>
+							<AppMenu />
+							<AppRouter />
+						</Router>
+					</PersistGate>
 				</Provider>
 			</ConfigProvider>
 		</div>

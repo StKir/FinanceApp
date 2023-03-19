@@ -5,13 +5,14 @@ import TransactionElementHistory from '../../components/transactionElement/Trans
 import { useCheckAuth } from '../../hooks/useAuth';
 import { useAppSelector } from '../../store/store';
 import { selectAll } from '../../store/transactionSlice';
+import { TtranRes } from '../../types/storeTypes';
 
 function Board() {
 	const transactionList = useAppSelector(selectAll);
 	const isAuth: boolean = useAppSelector((state) => state.auth.isAuth);
 	useCheckAuth();
 
-	const renderActiveList = (list: any[]) => {
+	const renderActiveList = (list: TtranRes[] = []) => {
 		return list
 			.filter((el) => el.status !== ('success' || 'error' || 'overdue'))
 			.map((el) => {
@@ -19,7 +20,7 @@ function Board() {
 			});
 	};
 
-	const renderHistoryList = (list: any[]) => {
+	const renderHistoryList = (list: TtranRes[] = []) => {
 		return list
 			.filter((el) => el.status !== ('waiting' || 'process'))
 			.map((el) => {

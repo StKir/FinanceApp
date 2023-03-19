@@ -1,9 +1,13 @@
 import { Card, Steps } from 'antd';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/store';
-import { updateTransaction } from '../../store/transactionSlice';
-import { QRCode } from 'antd';
+import {
+	removeTransaction,
+	updateTransaction
+} from '../../store/transactionSlice';
+import { QRCode, Button } from 'antd';
 import { Telement } from '../../types/typesApp';
+
 import './transactionElement.scss';
 import {
 	CheckCircleFilled,
@@ -32,12 +36,16 @@ function TransactionElement({ element }: { element: any }) {
 					//Дополнительная проверка необходима для обновления статуса внутри интервала
 					dispatch(updateTransaction(id));
 				}
-			}, 10000);
+			}, 5000);
 			dispatch(updateTransaction(id));
 			return () => clearInterval(updateInterval);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const deleteTransaction = () => {
+		dispatch(removeTransaction(id));
+	};
 
 	const renderStepCode = (
 		status: string
@@ -71,7 +79,7 @@ function TransactionElement({ element }: { element: any }) {
 		}
 	};
 	const stepCode = renderStepCode(status);
-	const code = renderTcode(status, addressDeposit, 100);
+	const code = renderTcode(status, addressDeposit, 100, deleteTransaction);
 
 	return (
 		<Card
@@ -93,7 +101,7 @@ function TransactionElement({ element }: { element: any }) {
 	);
 }
 
-function DepositQR(addressDeposit: string) {
+function DepositQR(addressDeposit: string, deleteTransaction: () => void) {
 	return (
 		<div className='depositInfo'>
 			<QRCode value={addressDeposit} />
@@ -103,6 +111,9 @@ function DepositQR(addressDeposit: string) {
 				Отсканируйте QR-код или скопируйте адрес кошелька, чтобы отправить
 				монеты
 			</h4>
+			<Button type='default' size={'large'} onClick={deleteTransaction}>
+				Отмена
+			</Button>
 		</div>
 	);
 }
@@ -110,15 +121,16 @@ function DepositQR(addressDeposit: string) {
 export const renderTcode = (
 	status: string,
 	addressDeposit: string,
-	size: number
+	size: number,
+	deleteTransaction: () => void = () => null
 ) => {
 	switch (status) {
 		case 'waiting':
-			return DepositQR(addressDeposit);
+			return DepositQR(addressDeposit, deleteTransaction);
 		case 'success':
 			return DepositFinish(size);
 		case 'overdue' || 'error':
-			return DepositError(size);
+			return DepositError(size, deleteTransaction);
 		case 'process':
 			return DepositProcess(size);
 	}
@@ -145,11 +157,14 @@ function DepositFinish(size: number) {
 		</div>
 	);
 }
-function DepositError(size: number) {
+function DepositError(size: number, deleteTransaction: () => void) {
 	return (
 		<div className='depositInfo'>
 			<CloseCircleFilled style={{ fontSize: size }} />
 			<h4>Произошла ошибка, попробуйте снова!</h4>
+			<Button type='default' size={'large'} onClick={deleteTransaction}>
+				Отмена
+			</Button>
 		</div>
 	);
 }

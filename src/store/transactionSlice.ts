@@ -74,6 +74,9 @@ const transactionSlice = createSlice({
 			const changes = { status: 'success' };
 			const id = payload;
 			TransactionAdater.updateOne(state, { id, changes });
+		},
+		removeTransaction: (state, { payload }: PayloadAction<string>) => {
+			TransactionAdater.removeOne(state, payload);
 		}
 	},
 	extraReducers: (builder) => {
@@ -106,6 +109,6 @@ export const { selectAll } = TransactionAdater.getSelectors<RootState>(
 	(state) => state.transaction
 );
 
-export const { resetStatus, testStatus } = actions;
+export const { resetStatus, testStatus, removeTransaction } = actions;
 
 export default reducer;

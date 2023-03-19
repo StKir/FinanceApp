@@ -1,4 +1,5 @@
 import AppAuthMassage from '../../components/appAuthMassage/AppAuthMassage';
+import HelmetHead from '../../components/Helmet';
 import TransactionElement from '../../components/transactionElement/TransactionElement';
 import TransactionElementHistory from '../../components/transactionElement/TransactionElementHistory';
 import { useCheckAuth } from '../../hooks/useAuth';
@@ -32,6 +33,8 @@ function Board() {
 	function boardEmpty() {
 		return (
 			<>
+				<HelmetHead title='Доска' content='transaction information' />
+
 				<div
 					className='emptyBoard'
 					style={{
@@ -50,6 +53,7 @@ function Board() {
 	function boardNotEmpty() {
 		return (
 			<>
+				<HelmetHead title='Доска' content='transaction information' />
 				<div
 					className='trans-active'
 					style={{

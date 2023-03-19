@@ -5,6 +5,7 @@ import { changeTypeModal, checkAuth, openModal } from '../../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import MainPageBtcImg from '../../assets/imgs/btcMainPage.png';
 import './mainPage.scss';
+import HelmetHead from '../../components/Helmet';
 
 function Main() {
 	const logStatus = useAppSelector(checkAuth);
@@ -12,6 +13,7 @@ function Main() {
 
 	return (
 		<>
+			<HelmetHead title='Главная' content='main information' />
 			<section className='mainOffer'>
 				<div className='container'>
 					<div className='MainOffer-wrp'>

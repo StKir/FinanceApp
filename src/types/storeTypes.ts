@@ -13,12 +13,9 @@ export interface loginUser {
 	remember: boolean;
 }
 
-export interface registUser {
-	email: string;
-	name: string;
-	password: string;
-	remember: boolean;
+export interface registUser extends loginUser {
 	confirm: string;
+	name: string;
 }
 
 export interface exchangeData {
